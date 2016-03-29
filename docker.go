@@ -16,6 +16,7 @@ func Initialize(host string) error {
 	if err != nil {
 		return err
 	}
+	// this wasnt being used... i dont think
 	// networks, err := client.NetworkList(context.Background(), dockType.NetworkListOptions{})
 	// if err == nil {
 	// 	for _, network := range networks {

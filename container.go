@@ -29,9 +29,9 @@ type ContainerConfig struct {
 
 // create a container from the user specification
 func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
-	if len(conf.Cmd) == 0 {
-		conf.Cmd = []string{"/bin/sleep", "3650d"}
-	}
+	// if len(conf.Cmd) == 0 {
+	// 	conf.Cmd = []string{"/bin/sleep", "3650d"}
+	// }
 
 	config := &dockContainer.Config{
 		Hostname:        conf.Hostname,
