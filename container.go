@@ -60,6 +60,7 @@ func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
 
 	if conf.Network == "host" {
 		// you cant set the hostname of the host
+		hostConfig.NetworkMode = "host"
 		config.Hostname = ""
 	}
 
