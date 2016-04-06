@@ -7,6 +7,9 @@ import (
 var client *dockClient.Client
 
 func Initialize(host string) error {
+	if client != nil {
+		return nil
+	}
 	var err error
 	if host == "env" {
 		client, err = dockClient.NewEnvClient()
@@ -14,6 +17,7 @@ func Initialize(host string) error {
 		client, err = dockClient.NewClient(host, "", nil, nil)
 	}
 	if err != nil {
+		client = nil
 		return err
 	}
 	// this wasnt being used... i dont think
