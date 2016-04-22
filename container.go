@@ -96,6 +96,11 @@ func ContainerStart(id string) error {
 	return client.ContainerStart(context.Background(), id)
 }
 
+// give them 5 seconds.. todo maybe make it adjustable
+func ContainerStop(id string) error {
+	return client.ContainerStop(context.Background(), id, 5)
+}
+
 // ContainerRemove
 func ContainerRemove(id string) error {
 	_, err := client.ContainerInspect(context.Background(), id)
