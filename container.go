@@ -112,7 +112,7 @@ func ContainerRemove(id string) error {
 		// return err
 	}
 
-	return client.ContainerRemove(context.Background(), dockType.ContainerRemoveOptions{ContainerID: id, RemoveVolumes: true, Force: true})
+	return client.ContainerRemove(context.Background(), id, dockType.ContainerRemoveOptions{RemoveVolumes: true, Force: true})
 }
 
 // ContainerInspect

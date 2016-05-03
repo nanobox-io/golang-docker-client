@@ -41,15 +41,16 @@ func ImageExists(name string) bool {
 
 // pull any new image
 func ImagePull(image string, output io.Writer) (Image, error) {
-	pullOptions := dockType.ImagePullOptions{
-		ImageID: image,
-	}
 
 	privilegeFunc := func() (string, error) {
 		return "", errors.New("no privilege function defined")
 	}
+	pullOptions := dockType.ImagePullOptions{
+		PrivilegeFunc: privilegeFunc,
+	}
+
 	ctx := context.Background()
-	rc, err := client.ImagePull(ctx, pullOptions, privilegeFunc)
+	rc, err := client.ImagePull(ctx, image, pullOptions)
 	if err != nil {
 		return Image{}, err
 	}
@@ -114,6 +115,6 @@ func ImageInspect(imageID string) (Image, error) {
 }
 
 func ImageRemove(imageID string) error {
-	_, err := client.ImageRemove(context.Background(), dockType.ImageRemoveOptions{ImageID: imageID, Force: true, PruneChildren: true})
+	_, err := client.ImageRemove(context.Background(), imageID, dockType.ImageRemoveOptions{Force: true, PruneChildren: true})
 	return err
 }

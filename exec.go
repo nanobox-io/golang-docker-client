@@ -13,12 +13,11 @@ func ExecStart(containerID string, cmd []string, stdIn, stdOut, stdErr bool) (do
 	config := dockType.ExecConfig{
 		Tty:          true,
 		Cmd:          cmd,
-		Container:    containerID,
 		AttachStdin:  stdIn,
 		AttachStdout: stdOut,
 		AttachStderr: stdErr,
 	}
-	exec, err := client.ContainerExecCreate(context.Background(), config)
+	exec, err := client.ContainerExecCreate(context.Background(), containerID, config)
 	if err != nil {
 		return exec, dockType.HijackedResponse{}, err
 	}
@@ -79,5 +78,5 @@ func ExecPipe(resp dockType.HijackedResponse, inStream io.Reader, outStream, err
 
 // resize the exec.
 func ContainerExecResize(id string, height, width int) error {
-	return client.ContainerExecResize(context.Background(), dockType.ResizeOptions{id, height, width})
+	return client.ContainerExecResize(context.Background(), id, dockType.ResizeOptions{height, width})
 }
