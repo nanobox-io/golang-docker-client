@@ -41,7 +41,7 @@ func ExecPipe(resp dockType.HijackedResponse, inStream io.Reader, outStream, err
 				// use a multicopy protocol made by docker
 				_, err = stdcopy.StdCopy(outStream, errorStream, resp.Reader)
 			}
-			lumber.Debug("[hijack] End of stdout")
+			lumber.Trace("[hijack] End of stdout")
 			receiveStdout <- err
 		}()
 	}
@@ -50,11 +50,11 @@ func ExecPipe(resp dockType.HijackedResponse, inStream io.Reader, outStream, err
 	go func() {
 		if inStream != nil {
 			io.Copy(resp.Conn, inStream)
-			lumber.Debug("[hijack] End of stdin")
+			lumber.Trace("[hijack] End of stdin")
 		}
 
 		if err := resp.CloseWrite(); err != nil {
-			lumber.Debug("Couldn't send EOF: %s", err)
+			lumber.Error("Couldn't send EOF: %s", err)
 		}
 		close(stdinDone)
 	}()

@@ -1,11 +1,15 @@
 package docker
 
 import (
-	"encoding/json"
+	// "encoding/json"
+	// "os"
+	"io"
 	"errors"
+	// "fmt"
 
 	dockType "github.com/docker/engine-api/types"
 	// "github.com/docker/engine-api/types/events"
+	// "github.com/docker/docker/pkg/jsonmessage"
 	"golang.org/x/net/context"
 )
 
@@ -36,7 +40,7 @@ func ImageExists(name string) bool {
 }
 
 // pull any new image
-func ImagePull(image string) (Image, error) {
+func ImagePull(image string, output io.Writer) (Image, error) {
 	pullOptions := dockType.ImagePullOptions{
 		ImageID: image,
 	}
@@ -49,14 +53,22 @@ func ImagePull(image string) (Image, error) {
 	if err != nil {
 		return Image{}, err
 	}
-
-	var message map[string]interface{}
-	decoder := json.NewDecoder(rc)
-	for decoder.More() {
-		decoder.Decode(&message)
-		// fmt.Printf("%+v\n", message)
-	}
 	defer rc.Close()
+
+	if output != nil {
+		io.Copy(output, rc)
+	}
+	// var message map[string]interface{}
+	// decoder := json.NewDecoder(rc)
+	// for decoder.More() {
+	// 	decoder.Decode(&message)
+	// 	fmt.Printf("%+v\n", message)
+	// }
+	// just trying out some display stuff
+	// err = jsonmessage.DisplayJSONMessagesStream(rc, os.Stdout, os.Stdout.Fd(), true, nil)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
 	// <- ctx.Done()
 	return ImageInspect(image)
