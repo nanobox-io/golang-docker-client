@@ -11,7 +11,7 @@ import (
 
 func ExecStart(containerID string, cmd []string, stdIn, stdOut, stdErr bool) (dockType.ContainerExecCreateResponse, dockType.HijackedResponse, error) {
 	config := dockType.ExecConfig{
-		Tty:          true,
+		Tty:          false,
 		Cmd:          cmd,
 		AttachStdin:  stdIn,
 		AttachStdout: stdOut,
@@ -34,12 +34,8 @@ func ExecPipe(resp dockType.HijackedResponse, inStream io.Reader, outStream, err
 	receiveStdout := make(chan error, 1)
 	if outStream != nil || errorStream != nil {
 		go func() {
-			if outStream != nil {
-				_, err = io.Copy(outStream, resp.Reader)
-			} else {
-				// use a multicopy protocol made by docker
-				_, err = stdcopy.StdCopy(outStream, errorStream, resp.Reader)
-			}
+			// always do this because we are never tty
+			_, err = stdcopy.StdCopy(outStream, errorStream, resp.Reader)
 			lumber.Trace("[hijack] End of stdout")
 			receiveStdout <- err
 		}()
