@@ -9,8 +9,9 @@ import (
 	"golang.org/x/net/context"
 )
 
-func ExecStart(containerID string, cmd []string, stdIn, stdOut, stdErr bool) (dockType.ContainerExecCreateResponse, dockType.HijackedResponse, error) {
+func ExecStart(containerID string, cmd []string, stdIn, stdOut, stdErr bool, user string) (dockType.ContainerExecCreateResponse, dockType.HijackedResponse, error) {
 	config := dockType.ExecConfig{
+		User:         user,
 		Tty:          false,
 		Cmd:          cmd,
 		AttachStdin:  stdIn,
