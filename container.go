@@ -48,7 +48,7 @@ func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
 		// NetworkMode:   "host",
 		CapAdd:        strslice.StrSlice([]string{"NET_ADMIN"}),
 		NetworkMode:   "bridge",
-		RestartPolicy: dockContainer.RestartPolicy{Name: "always"},
+		RestartPolicy: dockContainer.RestartPolicy{Name: "unless-stopped"},
 		Resources: dockContainer.Resources{
 			Memory:     conf.Memory,
 			MemorySwap: conf.MemorySwap,
