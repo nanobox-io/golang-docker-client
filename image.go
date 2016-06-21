@@ -71,7 +71,7 @@ func ImagePull(image string, output io.Writer) (Image, error) {
 	// 	fmt.Println(err)
 	// }
 
-	// <- ctx.Done()
+	<- ctx.Done()
 	return ImageInspect(image)
 }
 
