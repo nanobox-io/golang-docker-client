@@ -11,12 +11,13 @@ import (
 
 func ExecStart(containerID string, cmd []string, stdIn, stdOut, stdErr bool) (dockType.ContainerExecCreateResponse, dockType.HijackedResponse, error) {
 	config := dockType.ExecConfig{
-		Tty:          false,
+		Tty:          true,
 		Cmd:          cmd,
 		AttachStdin:  stdIn,
 		AttachStdout: stdOut,
 		AttachStderr: stdErr,
 	}
+
 	exec, err := client.ContainerExecCreate(context.Background(), containerID, config)
 	if err != nil {
 		return exec, dockType.HijackedResponse{}, err
