@@ -3,7 +3,7 @@ package docker
 import (
 	"encoding/json"
 
-	dockType "github.com/docker/engine-api/types"
+	dockType "github.com/docker/docker/api/types"
 	"golang.org/x/net/context"
 )
 

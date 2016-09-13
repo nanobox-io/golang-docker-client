@@ -4,7 +4,7 @@ import (
 	"io"
 
 	"github.com/docker/docker/pkg/stdcopy"
-	dockType "github.com/docker/engine-api/types"
+	dockType "github.com/docker/docker/api/types"
 	"github.com/jcelliott/lumber"
 	"golang.org/x/net/context"
 )

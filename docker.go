@@ -1,7 +1,7 @@
 package docker
 
 import (
-	dockClient "github.com/docker/engine-api/client"
+	dockClient "github.com/docker/docker/client"
 )
 
 var client *dockClient.Client

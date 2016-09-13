@@ -5,7 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 
-	dockType "github.com/docker/engine-api/types"
+	dockType "github.com/docker/docker/api/types"
 	"golang.org/x/net/context"
 )
 
@@ -86,7 +86,7 @@ func ImageList() ([]Image, error) {
 
 func ImageInspect(imageID string) (Image, error) {
 	// ignore the raw part of the image inspect
-	dockInspect, _, err := client.ImageInspectWithRaw(context.Background(), imageID, true)
+	dockInspect, _, err := client.ImageInspectWithRaw(context.Background(), imageID)
 	img := Image{
 		ID:          dockInspect.ID,
 		RepoTags:    dockInspect.RepoTags,

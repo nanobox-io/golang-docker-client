@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	dockType "github.com/docker/engine-api/types"
-	dockContainer "github.com/docker/engine-api/types/container"
-	dockNetwork "github.com/docker/engine-api/types/network"
-	"github.com/docker/engine-api/types/strslice"
+	dockType "github.com/docker/docker/api/types"
+	dockContainer "github.com/docker/docker/api/types/container"
+	dockNetwork "github.com/docker/docker/api/types/network"
+	"github.com/docker/docker/api/types/strslice"
 )
 
 type ContainerConfig struct {
