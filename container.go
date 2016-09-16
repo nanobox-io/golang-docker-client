@@ -14,6 +14,7 @@ import (
 type ContainerConfig struct {
 	ID         string            `json:"id"`
 	Network    string            `json:"network"`
+	NetName    string            `json:"networkname"`
 	Name       string            `json:"name"`
 	Labels     map[string]string `json:"labels"`
 	Hostname   string            `json:"hostname"`
@@ -66,9 +67,17 @@ func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
 	}
 
 	if conf.Network == "virt" || conf.IP != "" {
-		hostConfig.NetworkMode = "nanobox"
+		// allow for using a different network name
+		netName := ""
+		if conf.NetName == "" {
+			netName = "nanobox"
+		} else {
+			netName = conf.NetName
+		}
+
+		hostConfig.NetworkMode = dockContainer.NetworkMode(netName)
 		netConfig.EndpointsConfig = map[string]*dockNetwork.EndpointSettings{
-			"nanobox": &dockNetwork.EndpointSettings{
+			netName: &dockNetwork.EndpointSettings{
 				IPAMConfig: &dockNetwork.EndpointIPAMConfig{IPv4Address: conf.IP},
 			},
 		}
