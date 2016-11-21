@@ -27,6 +27,9 @@ type ContainerConfig struct {
 	MemorySwap int64             `json:"memory_swap"`
 	Status     string            `json:"status"`
 	CPUShares  int64             `json:"cpu_shares"`
+	RestartPolicy string
+	RestartAttempts int
+
 }
 
 // create a container from the user specification
@@ -34,6 +37,16 @@ func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
 	// if len(conf.Cmd) == 0 {
 	// 	conf.Cmd = []string{"/bin/sleep", "3650d"}
 	// }
+
+	// create a configurable restart policy with a default 'unless stopped' behavior
+	restartPolicy := dockContainer.RestartPolicy{Name: "unless-stopped"}
+	switch	conf.RestartPolicy {
+	case "no", "", "always", "on-failure":
+		restartPolicy = dockContainer.RestartPolicy{
+			Name: conf.RestartPolicy, 
+			MaximumRetryCount: conf.RestartAttempts,
+		}
+	}
 
 	config := &dockContainer.Config{
 		Hostname:        conf.Hostname,
@@ -50,7 +63,7 @@ func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
 		// NetworkMode:   "host",
 		CapAdd:        strslice.StrSlice([]string{"NET_ADMIN"}),
 		NetworkMode:   "bridge",
-		RestartPolicy: dockContainer.RestartPolicy{Name: "unless-stopped"},
+		RestartPolicy: restartPolicy,
 		Resources: dockContainer.Resources{
 			Memory:     conf.Memory,
 			MemorySwap: conf.MemorySwap,
