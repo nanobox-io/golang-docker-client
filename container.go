@@ -20,6 +20,7 @@ type ContainerConfig struct {
 	Hostname        string            `json:"hostname"`
 	Domainname      string            `json:"domainname"`
 	Cmd             []string          `json:"cmd"`
+	Env             []string          `json:"env"`
 	Image           string            `json:"image_slug"`
 	IP              string            `json:"ip"`
 	Binds           []string          `json:"binds"`
@@ -51,6 +52,7 @@ func CreateContainer(conf ContainerConfig) (dockType.ContainerJSON, error) {
 		Hostname:        conf.Hostname,
 		Domainname:      conf.Domainname,
 		Cmd:             conf.Cmd,
+		Env:             conf.Env,
 		Labels:          conf.Labels,
 		NetworkDisabled: false,
 		Image:           conf.Image,
