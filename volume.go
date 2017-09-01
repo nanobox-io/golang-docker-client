@@ -32,7 +32,6 @@ func VolumeExists(name string) bool {
 		if volume.Name == name {
 			return true
 		}
-
 	}
 	return false
 }
